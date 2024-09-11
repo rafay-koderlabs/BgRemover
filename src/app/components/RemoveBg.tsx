@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useCallback } from 'react';
+import Image from 'next/image';
 
 const RemoveBg = () => {
   const [inputImage, setInputImage] = useState<File | null>(null);
@@ -83,7 +84,7 @@ const RemoveBg = () => {
       <div className="container mx-auto px-4">
         <h2 className="text-3xl font-bold mb-4 text-center text-black">Effortless Background Removal</h2>
         <p className="text-black text-center mb-8 max-w-2xl mx-auto">
-          Simply upload your image, and our AI handles the rest. Whether you're editing photos for personal or professional use, this tool offers precision and speed, removing backgrounds in a matter of seconds. Plus, the entire project, including this service, was coded by AI, making it a true testament to the capabilities of artificial intelligence in software development.
+          Simply upload your image, and our AI handles the rest. Whether you&apos;re editing photos for personal or professional use, this tool offers precision and speed, removing backgrounds in a matter of seconds. Plus, the entire project, including this service, was coded by AI, making it a true testament to the capabilities of artificial intelligence in software development.
         </p>
         <div className="flex flex-col md:flex-row gap-8">
           <div className="flex-1">
@@ -95,7 +96,12 @@ const RemoveBg = () => {
               onDrop={onDrop}
             >
               {inputImage ? (
-                <img src={URL.createObjectURL(inputImage)} alt="Input" className="max-w-full max-h-full object-contain" />
+                <Image
+                  src={URL.createObjectURL(inputImage)}
+                  alt="Input"
+                  layout="fill"
+                  objectFit="contain"
+                />
               ) : (
                 <label className="cursor-pointer">
                   <span className="text-blue-500">Upload an image or drag and drop here</span>
@@ -125,7 +131,12 @@ const RemoveBg = () => {
             <h3 className="text-xl font-semibold mb-4 text-black">Output Image</h3>
             <div className="border-2 border-gray-300 rounded-lg p-4 text-center h-64 flex items-center justify-center overflow-hidden">
               {outputImage ? (
-                <img src={outputImage} alt="Output" className="max-w-full max-h-full object-contain" />
+                <Image
+                  src={outputImage}
+                  alt="Output"
+                  layout="fill"
+                  objectFit="contain"
+                />
               ) : (
                 <p className="text-black">Processed image will appear here</p>
               )}

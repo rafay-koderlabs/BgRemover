@@ -8,7 +8,7 @@ const Footer = () => {
           <div className="mb-4 md:mb-0">
             <h3 className="text-xl font-semibold mb-2">About This Project</h3>
             <p className="text-sm max-w-2xl">
-              This full-stack project was built entirely by AI using Next.js for the frontend and FastAPI for the backend. It's a demonstration of how artificial intelligence can create powerful, functional tools that deliver real-world value. Welcome to the future of tech innovation!
+              This full-stack project was built entirely by AI using Next.js for the frontend and FastAPI for the backend. It&apos;s a demonstration of how artificial intelligence can create powerful, functional tools that deliver real-world value. Welcome to the future of tech innovation!
             </p>
           </div>
           <nav className="mt-4 md:mt-0">
