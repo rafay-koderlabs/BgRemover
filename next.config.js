@@ -2,7 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ['your-image-domain.com'], // Add any domains you're loading images from
+    domains: ['your-image-domain.com'], // Replace with the actual domain of your hero image
   },
 }
 
