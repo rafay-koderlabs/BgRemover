@@ -42,7 +42,7 @@ const RemoveBg = () => {
     formData.append('file', inputImage); // Change 'image' to 'file' to match API expectation
 
     try {
-      const response = await fetch('http://127.0.0.1:8000/remove-background/', {
+      const response = await fetch('https://bgremover-fastapi-2rkb.onrender.com//remove-background/', {
         method: 'POST',
         body: formData,
       });
