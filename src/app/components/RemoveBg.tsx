@@ -1,19 +1,38 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 
 const RemoveBg = () => {
   const [inputImage, setInputImage] = useState<File | null>(null);
   const [outputImage, setOutputImage] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
 
-  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
+  const handleImageUpload = (file: File) => {
     if (file) {
       setInputImage(file);
-      setOutputImage(null); // Reset output image when new input is selected
+      setOutputImage(null);
     }
   };
+
+  const onDragOver = useCallback((e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setIsDragging(true);
+  }, []);
+
+  const onDragLeave = useCallback((e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setIsDragging(false);
+  }, []);
+
+  const onDrop = useCallback((e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setIsDragging(false);
+    const file = e.dataTransfer.files[0];
+    if (file && file.type.startsWith('image/')) {
+      handleImageUpload(file);
+    }
+  }, []);
 
   const removeBackground = async () => {
     if (!inputImage) return;
@@ -69,7 +88,12 @@ const RemoveBg = () => {
         <div className="flex flex-col md:flex-row gap-8">
           <div className="flex-1">
             <h3 className="text-xl font-semibold mb-4 text-black">Input Image</h3>
-            <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center h-64 flex items-center justify-center overflow-hidden">
+            <div 
+              className={`border-2 border-dashed ${isDragging ? 'border-blue-500 bg-blue-50' : 'border-gray-300'} rounded-lg p-4 text-center h-64 flex items-center justify-center transition-colors duration-300 ease-in-out overflow-hidden`}
+              onDragOver={onDragOver}
+              onDragLeave={onDragLeave}
+              onDrop={onDrop}
+            >
               {inputImage ? (
                 <img 
                   src={URL.createObjectURL(inputImage)} 
@@ -78,8 +102,13 @@ const RemoveBg = () => {
                 />
               ) : (
                 <label className="cursor-pointer">
-                  <span className="text-blue-500">Upload an image</span>
-                  <input type="file" className="hidden" onChange={handleImageUpload} accept="image/*" />
+                  <span className="text-blue-500">Upload an image or drag and drop here</span>
+                  <input 
+                    type="file" 
+                    className="hidden" 
+                    onChange={(e) => handleImageUpload(e.target.files?.[0] as File)} 
+                    accept="image/*" 
+                  />
                 </label>
               )}
             </div>
