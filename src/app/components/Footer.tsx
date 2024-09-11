@@ -19,7 +19,7 @@ const Footer = () => {
             </ul>
           </nav>
         </div>
-        <p className="text-sm mt-4 text-center">&copy; 2023 Bg Removal AI. All rights reserved.</p>
+        <p className="text-sm mt-4 text-center">&copy; 2024 Bg Removal AI. All rights reserved.</p>
       </div>
     </footer>
   );
