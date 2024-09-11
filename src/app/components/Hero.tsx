@@ -1,12 +1,12 @@
 import React from 'react';
 import Image from 'next/image';
-import heroImage from '@/assets/heroimg.jpg';
+import heroimg from '@/assets/heroimg.jpg';
 
 const Hero = () => {
   return (
     <div className="relative h-screen">
       <Image
-        src={heroImage}
+        src={heroimg}
         alt="AI Background"
         layout="fill"
         objectFit="cover"

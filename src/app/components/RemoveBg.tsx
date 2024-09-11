@@ -1,49 +1,29 @@
 'use client';
 
-import React, { useState, useCallback } from 'react';
-import Image from 'next/image';
+import React, { useState } from 'react';
 
 const RemoveBg = () => {
   const [inputImage, setInputImage] = useState<File | null>(null);
   const [outputImage, setOutputImage] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [isDragging, setIsDragging] = useState(false);
 
-  const handleImageUpload = (file: File) => {
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
     if (file) {
       setInputImage(file);
-      setOutputImage(null);
+      setOutputImage(null); // Reset output image when new input is selected
     }
   };
-
-  const onDragOver = useCallback((e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    setIsDragging(true);
-  }, []);
-
-  const onDragLeave = useCallback((e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    setIsDragging(false);
-  }, []);
-
-  const onDrop = useCallback((e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    setIsDragging(false);
-    const file = e.dataTransfer.files[0];
-    if (file && file.type.startsWith('image/')) {
-      handleImageUpload(file);
-    }
-  }, []);
 
   const removeBackground = async () => {
     if (!inputImage) return;
 
     setIsLoading(true);
     const formData = new FormData();
-    formData.append('file', inputImage);
+    formData.append('file', inputImage); // Change 'image' to 'file' to match API expectation
 
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/remove-background/`, {
+      const response = await fetch('http://127.0.0.1:8000/remove-background/', {
         method: 'POST',
         body: formData,
       });
@@ -89,23 +69,17 @@ const RemoveBg = () => {
         <div className="flex flex-col md:flex-row gap-8">
           <div className="flex-1">
             <h3 className="text-xl font-semibold mb-4 text-black">Input Image</h3>
-            <div 
-              className={`border-2 border-dashed ${isDragging ? 'border-blue-500 bg-blue-50' : 'border-gray-300'} rounded-lg p-4 text-center h-64 flex items-center justify-center transition-colors duration-300 ease-in-out`}
-              onDragOver={onDragOver}
-              onDragLeave={onDragLeave}
-              onDrop={onDrop}
-            >
+            <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center h-64 flex items-center justify-center overflow-hidden">
               {inputImage ? (
-                <Image
-                  src={URL.createObjectURL(inputImage)}
-                  alt="Input"
-                  layout="fill"
-                  objectFit="contain"
+                <img 
+                  src={URL.createObjectURL(inputImage)} 
+                  alt="Input" 
+                  className="max-w-full max-h-full object-contain"
                 />
               ) : (
                 <label className="cursor-pointer">
-                  <span className="text-blue-500">Upload an image or drag and drop here</span>
-                  <input type="file" className="hidden" onChange={(e) => handleImageUpload(e.target.files?.[0] as File)} accept="image/*" />
+                  <span className="text-blue-500">Upload an image</span>
+                  <input type="file" className="hidden" onChange={handleImageUpload} accept="image/*" />
                 </label>
               )}
             </div>
@@ -131,11 +105,10 @@ const RemoveBg = () => {
             <h3 className="text-xl font-semibold mb-4 text-black">Output Image</h3>
             <div className="border-2 border-gray-300 rounded-lg p-4 text-center h-64 flex items-center justify-center overflow-hidden">
               {outputImage ? (
-                <Image
-                  src={outputImage}
-                  alt="Output"
-                  layout="fill"
-                  objectFit="contain"
+                <img 
+                  src={outputImage} 
+                  alt="Output" 
+                  className="max-w-full max-h-full object-contain"
                 />
               ) : (
                 <p className="text-black">Processed image will appear here</p>

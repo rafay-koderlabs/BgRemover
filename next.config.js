@@ -2,7 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ['bg-remover-omega.vercel.app'],
+    domains: ['your-domain-if-image-is-hosted-externally.com'],
   },
 }
 
