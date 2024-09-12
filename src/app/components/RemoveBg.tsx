@@ -39,10 +39,10 @@ const RemoveBg = () => {
 
     setIsLoading(true);
     const formData = new FormData();
-    formData.append('file', inputImage); // Change 'image' to 'file' to match API expectation
+    formData.append('file', inputImage);
 
     try {
-      const response = await fetch('http://98.81.96.50:8000/remove-background/', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}remove-background/`, {
         method: 'POST',
         body: formData,
       });
