@@ -42,7 +42,7 @@ const RemoveBg = () => {
     formData.append('file', inputImage); // Change 'image' to 'file' to match API expectation
 
     try {
-      const response = await fetch('https://98.81.96.50:8000/remove-background/', {
+      const response = await fetch('http://98.81.96.50:8000/remove-background/', {
         method: 'POST',
         body: formData,
       });
